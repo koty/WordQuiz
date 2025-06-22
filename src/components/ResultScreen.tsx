@@ -25,7 +25,7 @@ const ResultScreen: React.FC<ResultScreenProps> = ({
         playIncorrectSound();
       }
     }
-  }, [isCorrect, isSupported]);
+  }, [isCorrect, isSupported, playCorrectSound, playIncorrectSound]);
   return (
     <div className="result-section">
       <div className={`result ${isCorrect ? 'correct' : 'incorrect'}`}>
