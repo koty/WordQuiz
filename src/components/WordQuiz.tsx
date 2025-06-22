@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { getRandomFood } from '../data/foods';
 import { Food } from '../types';
 import QuestionScreen from './QuestionScreen';
@@ -10,17 +10,17 @@ const WordQuiz: React.FC = () => {
   const [userAnswer, setUserAnswer] = useState<string>('');
   const [showResult, setShowResult] = useState<boolean>(false);
 
-  useEffect(() => {
-    generateNewQuestion();
-  }, []);
-
-  const generateNewQuestion = (): void => {
+  const generateNewQuestion = useCallback((): void => {
     const { food, index } = getRandomFood(currentFoodIndex);
     setCurrentFood(food);
     setCurrentFoodIndex(index);
     setUserAnswer('');
     setShowResult(false);
-  };
+  }, [currentFoodIndex]);
+
+  useEffect(() => {
+    generateNewQuestion();
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>): void => {
     e.preventDefault();
