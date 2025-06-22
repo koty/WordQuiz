@@ -1,5 +1,6 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Food } from '../types';
+import { useSound } from '../hooks/useSound';
 
 interface ResultScreenProps {
   currentFood: Food;
@@ -14,6 +15,17 @@ const ResultScreen: React.FC<ResultScreenProps> = ({
   userAnswer,
   onNextQuestion
 }) => {
+  const { playCorrectSound, playIncorrectSound, isSupported } = useSound();
+
+  useEffect(() => {
+    if (isSupported) {
+      if (isCorrect) {
+        playCorrectSound();
+      } else {
+        playIncorrectSound();
+      }
+    }
+  }, [isCorrect, isSupported]);
   return (
     <div className="result-section">
       <div className={`result ${isCorrect ? 'correct' : 'incorrect'}`}>
